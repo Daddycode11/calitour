@@ -7,22 +7,22 @@ export interface NavItems {
 export const NAV_ITEMS: NavItems[] = [
   {
     label: 'Dashboard',
-    route: '/dashboard',
+    route: 'dashboard',
     icon: 'dashboard',
   },
   {
     label: 'Orders',
-    route: '/orders',
+    route: 'orders',
     icon: 'shopping_cart',
   },
   {
     label: 'Products',
-    route: '/products',
+    route: 'products',
     icon: 'inventory_2',
   },
   {
     label: 'Transactions',
-    route: '/transactions',
+    route: 'transactions',
     icon: 'receipt_long',
   },
 ];

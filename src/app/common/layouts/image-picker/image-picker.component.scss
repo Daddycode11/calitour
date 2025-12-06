@@ -1,13 +1,15 @@
 .image-picker {
   display: flex;
   align-items: center;
-
   justify-content: center;
   background-color: #f0f0f0;
   border: 2px dotted #9e9e9e;
   border-radius: 12px;
   cursor: pointer;
-  overflow: hidden; // ensures image doesn't spill outside
+  overflow: hidden;
+
+  width: 100%; // allow parent to control width dynamically
+  height: 100%; // allow parent to control height dynamically
 }
 
 .picker-label {
@@ -23,16 +25,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: #757575;
-}
-
-.placeholder {
-  font-size: 48px;
-  margin-bottom: 8px;
+  text-align: center;
 }
 
 .preview-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; // makes image fill the box
+  object-fit: cover; // fill box without distortion
+  border-radius: inherit; // match picker border radius
+  transition: transform 0.2s ease;
+}
+
+.preview-image:hover {
+  transform: scale(1.05); // subtle hover effect
 }

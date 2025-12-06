@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -32,6 +32,12 @@ import { ProductDetails } from '../../../models/products/ProductDetails';
 
 import { Editor, NgxEditorModule, Toolbar, TOOLBAR_FULL } from 'ngx-editor';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import {
+  MatNativeDateModule,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ChangeDetectionStrategy } from '@angular/core';
 type ProductDetailsForm = FormGroup<{
   icon: FormControl<string>;
   value: FormControl<string>;
@@ -39,11 +45,14 @@ type ProductDetailsForm = FormGroup<{
 @Component({
   selector: 'app-create-product',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
+    MatNativeDateModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -55,9 +64,11 @@ type ProductDetailsForm = FormGroup<{
     IconSelectorComponent,
     NgxEditorModule,
     MatChipsModule,
+    MatDatepickerModule,
   ],
   templateUrl: './create-product.component.html',
   styleUrl: './create-product.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
   product: Product | null = null;
@@ -68,14 +79,20 @@ export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
   productForm: FormGroup;
   thumbnail: File | null = null;
 
-  categories: ProductCategory[] = [
-    'Foods & Restaurants',
-    'Hotels',
-    'Travel & Tours',
-  ];
+  categories = Object.values(ProductCategory);
   editor: Editor | null = null;
-  html = '';
-  data: Toolbar = TOOLBAR_FULL;
+
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+
   images: File[] = [];
   preview: string[] = [];
 
@@ -110,10 +127,12 @@ export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       sku: ['', [Validators.required, Validators.maxLength(50)]],
       category: ['', Validators.required],
-      details: this.fb.array<ProductDetailsForm>([]),
+      description: ['', Validators.required],
+      details: this.fb.array([]),
       cost: [0, [Validators.required, Validators.min(0)]],
       price: [0, [Validators.required, Validators.min(0)]],
       quantity: [0, [Validators.required, Validators.min(0)]],
+      expiration: [null],
       stockAlert: [false],
       threshold: [0],
     });
@@ -134,22 +153,21 @@ export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
     this.editor?.destroy();
   }
 
-  // ---- DETAILS FORM ARRAY ---- //
-  get detailsArray() {
-    return this.productForm.get('details') as FormArray<ProductDetailsForm>;
+  get detailsArray(): FormArray {
+    return this.productForm.get('details') as FormArray;
   }
 
   addDetail() {
-    const group = this.fb.group({
-      icon: ['', Validators.required],
-      value: ['', Validators.required],
-    }) as ProductDetailsForm;
-
-    this.detailsArray.push(group);
+    this.detailsArray.push(
+      this.fb.group({
+        icon: [''],
+        value: ['', Validators.required],
+      })
+    );
   }
 
-  removeDetail(index: number) {
-    this.detailsArray.removeAt(index);
+  removeDetail(i: number) {
+    this.detailsArray.removeAt(i);
   }
 
   onThumbnailPicked(file: File | null) {
@@ -232,7 +250,7 @@ export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
     const formData = this.productForm.value;
 
     const mappedDetails: ProductDetails[] = this.detailsArray.value.map(
-      (d) => ({
+      (d: { icon: any; value: any }) => ({
         icon: d.icon!,
         value: d.value!,
       })
@@ -244,17 +262,18 @@ export class CreateProductComponent implements OnInit, OnDestroy, ExitPage {
       name: formData.name,
       sku: formData.sku,
       category: formData.category,
-      description: this.html,
+      description: formData.description,
       details: mappedDetails,
       cost: formData.cost,
+      expiration: formData.expiration ?? null,
       price: formData.price,
       available: formData.quantity > 0,
       quantity: formData.quantity,
       ratings: 0,
-      expiration: '08/12/2028',
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+    console.log(newProduct);
 
     try {
       this.isLoading = true;

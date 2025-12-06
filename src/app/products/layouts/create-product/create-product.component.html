@@ -32,27 +32,26 @@
           ></app-image-picker>
 
           <!-- Preview loop -->
-          <div
-            class="preview-item"
-            *ngFor="let url of preview; let i = index"
-            style="width: 100px; height: 100px"
-          >
-            <img
-              [src]="url"
-              alt="Preview {{ i }}"
-              class="preview-img"
-              width="100px"
-              height="100px"
-            />
-            <button
-              mat-icon-button
-              color="warn"
-              type="button"
-              (click)="deleteImage(i)"
-              class="delete-btn"
+          <div class="preview-container">
+            <div
+              class="preview-item"
+              *ngFor="let url of preview; let i = index"
+              [style.width.px]="100"
+              [style.height.px]="100"
             >
-              <mat-icon>delete</mat-icon>
-            </button>
+              <div class="image-wrapper">
+                <img [src]="url" alt="Preview {{ i }}" class="preview-img" />
+                <button
+                  mat-icon-button
+                  type="button"
+                  color="warn"
+                  (click)="deleteImage(i)"
+                  class="delete-btn"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <h1>Product Information</h1>
@@ -111,10 +110,33 @@
             </mat-error>
           </mat-form-field>
 
+          <mat-form-field class="col-6" appearance="outline">
+            <mat-label>Quantity / Slots</mat-label>
+            <input matInput type="number" formControlName="quantity" />
+            <mat-error *ngIf="productForm.get('quantity')?.hasError('min')">
+              Quantity must be ≥ 0
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6" appearance="outline">
+            <mat-label>Expiration date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="expiration"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
           <div class="col-12">
             <h3>Product Details</h3>
 
-            <div formArrayName="details " class="details-container">
+            <div formArrayName="details" class="details-container">
               <div
                 *ngFor="let detail of detailsArray.controls; let i = index"
                 [formGroupName]="i"
@@ -170,12 +192,12 @@
             </mat-error>
           </mat-form-field>
 
-          <div class="col-12" *ngIf="editor">
-            <ngx-editor-menu [editor]="editor" [toolbar]="data">
+          <div class="col-12 NgxEditor__Wrapper" *ngIf="editor">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
             </ngx-editor-menu>
             <ngx-editor
               [editor]="editor"
-              [ngModel]="html"
+              formControlName="description"
               [disabled]="false"
               [placeholder]="'Add Description here'"
             ></ngx-editor>
@@ -186,11 +208,7 @@
 
     <!-- Bottom actions -->
     <div class="bottom-actions">
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="isLoading || productForm.invalid"
-      >
+      <button mat-flat-button color="primary" [disabled]="isLoading">
         {{ isLoading ? "Saving" : "Save" }}
       </button>
     </div>

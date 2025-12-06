@@ -1,0 +1,127 @@
+<div class="auth-container">
+  <mat-card class="auth-card" appearance="outlined">
+    <mat-card-content>
+      <!-- HEADER -->
+      <div class="header">
+        <img src="../../../assets/png/logo.png" class="logo" alt="logo" />
+        <h1 class="title">Setup admin account</h1>
+        <p class="subtitle">
+          Create your administrator account to manage the system.
+        </p>
+      </div>
+
+      <!-- FORM -->
+      <form class="form" (submit)="submit()" [formGroup]="setupForm">
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Full name</mat-label>
+          <input matInput type="text" formControlName="name" required />
+          <mat-error *ngIf="name.invalid && name.touched">
+            Full name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="tel" formControlName="phone" required />
+          <mat-error *ngIf="phone.invalid && phone.touched">
+            Phone number is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+          <mat-error *ngIf="email.invalid && email.touched">
+            Valid email is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.invalid && password.touched">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Confirm password</mat-label>
+          <input
+            matInput
+            [type]="hideConfirmPassword ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hideConfirmPassword = !hideConfirmPassword"
+          >
+            <mat-icon>{{
+              hideConfirmPassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+
+          <mat-error
+            *ngIf="
+              confirmPassword.hasError('required') && confirmPassword.touched
+            "
+          >
+            Confirm password is required
+          </mat-error>
+
+          <mat-error
+            *ngIf="
+              confirmPassword.hasError('mismatch') && confirmPassword.touched
+            "
+          >
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="submit-button"
+          [disabled]="isLoading || setupForm.invalid"
+          type="submit"
+        >
+          <mat-progress-spinner
+            *ngIf="isLoading"
+            diameter="20"
+            mode="indeterminate"
+            color="accent"
+            class="spinner"
+          ></mat-progress-spinner>
+          <span *ngIf="!isLoading">Create admin</span>
+        </button>
+      </form>
+
+      <p class="alternate">
+        Already have an account?
+        <a [routerLink]="['/auth/login']">Sign in</a>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="footer">
+    <a>Help</a>
+    <a>Privacy</a>
+    <a>Terms</a>
+  </div>
+</div>

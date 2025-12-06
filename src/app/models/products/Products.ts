@@ -19,7 +19,7 @@ export interface Product {
   options?: ProductOptions[];
   stockAlert?: StockAlert;
   ratings: number;
-  expiration: string;
+  expiration?: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,0 +1,84 @@
+<div class="auth-container">
+  <mat-card class="auth-card" appearance="outlined">
+    <mat-card-content>
+      <!-- HEADER -->
+      <div class="header">
+        <img src="../../../assets/png/logo.png" class="logo" alt="logo" />
+
+        <h1 class="title">Create your account</h1>
+        <p class="subtitle">
+          Enter your details to continue and access the dashboard.
+        </p>
+      </div>
+
+      <!-- FORM -->
+      <form class="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Full name</mat-label>
+          <input matInput type="text" [formControl]="name" required />
+          <mat-error *ngIf="name.invalid && name.touched">
+            Full name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="tel" [formControl]="phone" required />
+          <mat-error *ngIf="phone.invalid && phone.touched">
+            Phone number is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [formControl]="email" required />
+          <mat-error *ngIf="email.invalid && email.touched">
+            Valid email is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            [formControl]="password"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hide = !hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="password.invalid && password.touched">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          [disabled]="formInvalid"
+        >
+          Create account
+        </button>
+      </form>
+
+      <p class="alternate">
+        Already have an account?
+        <a [routerLink]="['/auth/login']">Sign in</a>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="footer">
+    <a>Help</a>
+    <a>Privacy</a>
+    <a>Terms</a>
+  </div>
+</div>

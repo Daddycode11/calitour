@@ -4,6 +4,7 @@ export const AppConstants = {
   BARANGAY_COLLECTION: 'barangays',
   SCHEDULES_COLLECTION: 'schedules',
   BOOKING_COLLECTION: 'bookings',
+  USER_COLLECTION: 'users',
 
   PLACEHOLDERS: {
     PRODUCT_PLACEHOLDER: "'https://placehold.co/600x400/orange/white'",

@@ -1,0 +1,98 @@
+<div class="login-container">
+  <mat-card class="login-card" appearance="outlined">
+    <mat-card-content>
+      <!-- LEFT SECTION -->
+      <div class="left-section">
+        <img
+          src="../../../assets/png/logo.png"
+          class="logo"
+          alt="logo"
+          width="100"
+          height="100"
+        />
+
+        <h1 class="title">Sign in</h1>
+        <p class="subtitle">
+          Use your account to continue. Your account will be available across
+          other services.
+        </p>
+      </div>
+
+      <!-- RIGHT SECTION -->
+      <div class="right-section">
+        <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="form">
+          <mat-form-field appearance="outline" class="input">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="you@email.com"
+              required
+            />
+            <mat-error
+              *ngIf="
+                loginForm.get('email')?.invalid &&
+                loginForm.get('email')?.touched
+              "
+            >
+              Please enter a valid email
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="input">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password"
+              required
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="hide = !hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                loginForm.get('password')?.touched
+              "
+            >
+              Password is required
+            </mat-error>
+          </mat-form-field>
+
+          <a class="link">Forgot password?</a>
+
+          <button
+            mat-raised-button
+            color="primary"
+            class="submit-button"
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <mat-progress-spinner
+              *ngIf="isLoading"
+              diameter="20"
+              mode="indeterminate"
+              color="accent"
+              class="spinner"
+            ></mat-progress-spinner>
+            <span *ngIf="!isLoading">Next</span>
+          </button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <a>Help</a>
+    <a>Privacy</a>
+    <a>Terms</a>
+  </div>
+</div>
