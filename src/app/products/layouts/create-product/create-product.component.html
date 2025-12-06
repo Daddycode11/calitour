@@ -1,0 +1,198 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<form [formGroup]="productForm" (submit)="submit()">
+  <div class="container">
+    <!-- Top actions -->
+    <div class="top-actions">
+      <button
+        mat-icon-button
+        aria-label="Arrow Back"
+        type="button"
+        (click)="back()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <!-- Thumbnail picker -->
+        <app-image-picker
+          [width]="'100%'"
+          height="380px"
+          (onImagePicked)="onThumbnailPicked($event)"
+        ></app-image-picker>
+
+        <div class="image-container">
+          <!-- Additional image picker -->
+          <app-image-picker
+            width="100px"
+            height="100px"
+            [previewEnabled]="false"
+            (onImagePicked)="onImagePicked($event)"
+          ></app-image-picker>
+
+          <!-- Preview loop -->
+          <div
+            class="preview-item"
+            *ngFor="let url of preview; let i = index"
+            style="width: 100px; height: 100px"
+          >
+            <img
+              [src]="url"
+              alt="Preview {{ i }}"
+              class="preview-img"
+              width="100px"
+              height="100px"
+            />
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              (click)="deleteImage(i)"
+              class="delete-btn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <h1>Product Information</h1>
+        <div class="form-container">
+          <mat-form-field class="col-8" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>SKU</mat-label>
+            <input matInput formControlName="sku" />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="skuGenerator()"
+            >
+              <mat-icon>autorenew</mat-icon>
+            </button>
+            <mat-error *ngIf="productForm.get('sku')?.hasError('required')">
+              SKU is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6" appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let cat of categories" [value]="cat">
+                {{ cat }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="productForm.get('category')?.hasError('required')"
+            >
+              Category is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-3" appearance="outline">
+            <mat-label>Cost</mat-label>
+            <input matInput type="number" formControlName="cost" />
+            <mat-error *ngIf="productForm.get('cost')?.hasError('min')">
+              Cost must be ≥ 0
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-3" appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" formControlName="price" />
+            <mat-error *ngIf="productForm.get('price')?.hasError('min')">
+              Price must be ≥ 0
+            </mat-error>
+          </mat-form-field>
+
+          <div class="col-12">
+            <h3>Product Details</h3>
+
+            <div formArrayName="details " class="details-container">
+              <div
+                *ngFor="let detail of detailsArray.controls; let i = index"
+                [formGroupName]="i"
+                class="detail-item"
+              >
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Value</mat-label>
+                  <app-icon-selector
+                    matIconPrefix
+                    [selectedIcon]="detail.get('icon')?.value ?? null"
+                    (iconSelected)="detail.get('icon')?.setValue($event)"
+                  >
+                  </app-icon-selector>
+                  <input matInput formControlName="value" />
+
+                  <button
+                    matIconSuffix
+                    mat-icon-button
+                    color="warn"
+                    type="button"
+                    (click)="removeDetail(i)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+            <button
+              mat-stroked-button
+              color="primary"
+              type="button"
+              (click)="addDetail()"
+            >
+              Add Detail
+            </button>
+          </div>
+
+          <mat-slide-toggle class="col-12" formControlName="stockAlert">
+            Enable Stock Alert
+          </mat-slide-toggle>
+
+          <mat-form-field
+            class="col-12"
+            appearance="outline"
+            *ngIf="productForm.get('stockAlert')?.value"
+          >
+            <mat-label>Threshold</mat-label>
+            <input matInput type="number" formControlName="threshold" />
+            <mat-error
+              *ngIf="productForm.get('threshold')?.hasError('required')"
+            >
+              Threshold is required when stock alert is enabled
+            </mat-error>
+          </mat-form-field>
+
+          <div class="col-12" *ngIf="editor">
+            <ngx-editor-menu [editor]="editor" [toolbar]="data">
+            </ngx-editor-menu>
+            <ngx-editor
+              [editor]="editor"
+              [ngModel]="html"
+              [disabled]="false"
+              [placeholder]="'Add Description here'"
+            ></ngx-editor>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Bottom actions -->
+    <div class="bottom-actions">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="isLoading || productForm.invalid"
+      >
+        {{ isLoading ? "Saving" : "Save" }}
+      </button>
+    </div>
+  </div>
+</form>

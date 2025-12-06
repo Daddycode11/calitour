@@ -1,0 +1,39 @@
+.side-nav-container {
+  width: auto;
+  height: 100dvh;
+  background: #eee;
+  mat-drawer {
+    width: 260px;
+    height: 100%;
+  }
+}
+a {
+  text-decoration: none;
+}
+.active-link {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  border-radius: 8px; // optional for nicer highlight
+}
+
+.active-link mat-icon {
+  color: var(--md-sys-color-primary);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center; /* vertical centering if you give it height */
+  padding: 16px; /* optional spacing */
+}
+
+.logo-container img {
+  display: block;
+}
+
+.sticky-toolbar {
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}

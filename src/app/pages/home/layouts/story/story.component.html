@@ -1,0 +1,17 @@
+<ng-container *ngIf="story$ | async as story">
+  <div class="story-layout">
+    <h1 class="heading">Our Story</h1>
+    <div class="story-image">
+      <img [src]="story.image" [alt]="story.title" />
+    </div>
+
+    <div class="story-text">
+      <h1 class="story-title">{{ story.title }}</h1>
+      <p class="story-description">{{ story.description }}</p>
+      <div class="story-actions">
+        <button mat-raised-button color="primary">Explore</button>
+        <button mat-stroked-button color="primary">Learn More</button>
+      </div>
+    </div>
+  </div>
+</ng-container>

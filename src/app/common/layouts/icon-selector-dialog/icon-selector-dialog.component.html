@@ -1,0 +1,26 @@
+<div class="header">
+  <mat-form-field class="example-full-width">
+    <mat-label>Search icon here</mat-label>
+
+    <input
+      matInput
+      placeholder="Search icon..."
+      [(ngModel)]="searchText"
+      class="search-input"
+    />
+    <button mat-icon-button (click)="close()" matSuffix>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div class="icons-grid">
+  <button
+    mat-icon-button
+    *ngFor="let icon of filteredIcons"
+    class="icon-item"
+    (click)="selectIcon(icon)"
+  >
+    <mat-icon>{{ icon }}</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,23 @@
+<div class="image-picker" [style.width]="width" [style.height]="height">
+  <label class="picker-label">
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+
+    <!-- Show preview if image selected -->
+    <ng-container *ngIf="previewUrl && previewEnabled; else placeholder">
+      <img [src]="previewUrl" alt="Preview" class="preview-image" />
+    </ng-container>
+
+    <!-- Placeholder with icon + text -->
+    <ng-template #placeholder>
+      <div class="placeholder">
+        <mat-icon>add</mat-icon>
+        <h4>Choose Image</h4>
+      </div>
+    </ng-template>
+  </label>
+</div>

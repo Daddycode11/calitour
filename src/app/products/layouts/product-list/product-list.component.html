@@ -1,0 +1,12 @@
+<div class="container">
+  <button mat-stroked-button color="primary" (click)="create()">
+    <mat-icon>add</mat-icon>
+    New
+  </button>
+</div>
+<!-- Grid wrapper -->
+<div class="grid">
+  @for (item of products$ | async; track $index) {
+  <app-product-card [product]="item"></app-product-card>
+  }
+</div>

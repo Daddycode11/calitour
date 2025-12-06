@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 1rem;
+  .bottom-actions {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+}
+
+.image-container {
+  display: flex;
+  gap: 16px;
+}
+
+.item-left {
+  flex: 1;
+}
+
+.item-right {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  gap: 8px;
+}
+
+.form-container {
+  display: grid;
+  margin-top: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.col-12 {
+  grid-column: span 12;
+}
+.col-8 {
+  grid-column: span 8;
+}
+.col-6 {
+  grid-column: span 6;
+}
+.col-4 {
+  grid-column: span 4;
+}
+.col-3 {
+  grid-column: span 3;
+}
+h1 {
+  margin-top: 1rem;
+}
+
+ngx-editor-menu button {
+  type: button;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}

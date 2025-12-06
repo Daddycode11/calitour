@@ -1,0 +1,91 @@
+<mat-drawer-container class="drawer-container">
+  <!-- Side Drawer -->
+  <mat-drawer
+    #drawer
+    position="end"
+    mode="over"
+    [opened]="isOpen"
+    (closedStart)="isOpen = false"
+  >
+    <mat-nav-list>
+      <img
+        src="../../../assets/png/logo.png"
+        width="100"
+        height="100"
+        alt="logo"
+        style="padding: 1rem"
+      />
+
+      <!-- Navigation Links -->
+      <a mat-list-item routerLink="/home" (click)="drawer.close()">Home</a>
+      <a mat-list-item routerLink="/about" (click)="drawer.close()">About</a>
+      <a mat-list-item routerLink="/products" (click)="drawer.close()"
+        >Products</a
+      >
+      <a mat-list-item routerLink="/contact" (click)="drawer.close()"
+        >Contact</a
+      >
+
+      <mat-divider></mat-divider>
+
+      <div class="actions">
+        <a
+          mat-stroked-button
+          routerLink="/register"
+          (click)="drawer.close()"
+          class="btn"
+          color="accent"
+          >Register</a
+        >
+        <a
+          mat-raised-button
+          routerLink="/login"
+          (click)="drawer.close()"
+          class="btn"
+          color="primary"
+          >Login</a
+        >
+      </div>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <!-- Main Content -->
+  <mat-drawer-content>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <!-- Logo -->
+        <img src="../assets/webp/logo.webp" width="60" height="60" alt="logo" />
+
+        <div class="spacer"></div>
+
+        <!-- Desktop Nav -->
+        <nav *ngIf="!isMobile">
+          <a mat-button routerLink="/home">Home</a>
+          <a mat-button routerLink="/about">About</a>
+          <a mat-button routerLink="/products">Products</a>
+          <a mat-button routerLink="/contact">Contact</a>
+
+          <!-- Actions -->
+          <a
+            mat-stroked-button
+            color="accent"
+            class="btn"
+            routerLink="/register"
+            >Register</a
+          >
+          <a mat-raised-button class="btn" color="primary" routerLink="/login"
+            >Login</a
+          >
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button mat-icon-button *ngIf="isMobile" (click)="toggleDrawer()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- Routed Views -->
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,37 @@
+<mat-drawer-container class="side-nav-container">
+  <mat-drawer [mode]="mode" [opened]="isOpen" class="drawer">
+    <div class="logo-container">
+      <img
+        src="../assets/webp/logo.webp"
+        height="80"
+        width="80"
+        alt="Calintaan Logo"
+      />
+    </div>
+
+    <mat-nav-list>
+      @for (item of items$; track item) {
+      <a
+        mat-list-item
+        [routerLink]="item.route"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <div matListItemTitle>{{ item.label }}</div>
+      </a>
+      }
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar class="sticky-toolbar">
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h4>{{ activeRoute }}</h4>
+      </mat-toolbar-row></mat-toolbar
+    >
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

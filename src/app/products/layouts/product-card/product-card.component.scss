@@ -1,0 +1,27 @@
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* max lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-height: 1.4rem; /* adjust to your font size */
+  min-height: calc(1.4rem * 3); /* always reserve 3 lines */
+  max-height: calc(1.4rem * 3); /* never exceed 3 lines */
+}
+.footer-row {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  gap: 6px;
+}
+
+.spacer {
+  flex: 1 1 auto; /* pushes ratings to the right */
+}
+
+.action-row {
+  gap: 6px;
+  display: flex;
+  align-items: center;
+}

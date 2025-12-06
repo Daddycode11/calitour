@@ -1,0 +1,11 @@
+section {
+  display: block;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional spacing between sections */
+section + section {
+  margin-top: 60px;
+}

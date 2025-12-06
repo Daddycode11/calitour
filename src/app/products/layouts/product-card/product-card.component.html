@@ -1,0 +1,31 @@
+<mat-card class="example-card" appearance="outlined">
+  <!-- Thumbnail -->
+  <img
+    mat-card-image
+    [src]="'https://placehold.co/600x400/orange/white'"
+    [alt]="product.name"
+  />
+
+  <!-- Content -->
+  <mat-card-content>
+    <p class="description">
+      {{ product.description }}
+    </p>
+  </mat-card-content>
+
+  <!-- Actions -->
+  <mat-card-actions class="action-row">
+    <mat-slide-toggle></mat-slide-toggle>
+    <span class="spacer"></span>
+    <mat-icon>visibility</mat-icon>
+    <mat-icon>qr_code</mat-icon>
+    <mat-icon>edit</mat-icon>
+  </mat-card-actions>
+
+  <!-- Footer with spacer -->
+  <mat-card-footer class="footer-row">
+    <h4>{{ product.price }}</h4>
+    <span class="spacer"></span>
+    <h5>{{ product.ratings }}</h5>
+  </mat-card-footer>
+</mat-card>
